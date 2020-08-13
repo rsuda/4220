@@ -1,0 +1,66 @@
+Block
+
+<block> ::= <block statements>
+
+<block statements> ::= <block statement> | <block statements> <block statement>
+
+<block statement> ::= <local variable declaration> | <local variable declaration assignment> | <statement>
+
+<local variable declaration> ::= <type> <variable name>
+
+<local variable declaration assignment> ::= <type> <assignment statement>
+
+<statement> ::= <assignment statement> | <if then statement> | <if then else statement> | <statement without nested substatement> | <while statement>
+
+<statement without nested substatement> ::= <empty statement> | <statement expression> | <continue statement> | <break statement> | <return statement> | <do statement> | <block>
+
+<empty statement> ::= ;
+
+<assignment statement> ::= <variable name> = <statement>
+
+	<statement expression> ::= <assignment> | <preincrement expression> | <postincrement expression> | <predecrement expression> | <postdecrement expression> | <method call>
+
+	<if then statement>: := if (<expression>) <statement>
+
+	<if then else if statement> ::= if(<expression) <statement> <else if statement>
+
+	<else if statement> ::= else if (<expression>) <statement> | else if (<expresion>) <statment> <else if statement>
+
+	<if then else statement> ::= if (<expression>) <statement> else <statement>
+
+	<while statement> ::= while (<expression>) <statement>
+
+	<do statement> ::= do <statement> while (<expression>) ;
+	
+<method call> ::= <method name> (<parameters>)
+
+<break statement> ::= break <variable name> ;
+
+<continue statement> ::= continue <variable name> ;
+
+	<return statement> ::= return <expression> ;
+
+<finally > ::= finally <block>
+
+Types
+
+<type> ::= <primitive type>
+
+<primitive type> ::= <numeric type> | boolean
+
+<numeric type> ::= byte | int | char
+
+Reserved words ::= ; | if | else | break | continue | return | finally
+
+Expression
+
+<expression> ::= <assignment expression>
+
+<assignment expression> ::= <conditional expression> | <assignment>
+
+<assignment> ::= <left hand side> <assignment operator> <assignment expression>
+
+<assignment operator> :: == | *= | /= | %= | += | -= | <= | >= | !=
+
+The syntax category <variable name> consists of strings that must start with a letter 
+followed by any number of letters and digits. Also, <variable name> includes none of the reserved words.

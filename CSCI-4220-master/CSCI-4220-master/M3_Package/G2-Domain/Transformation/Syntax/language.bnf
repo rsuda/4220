@@ -1,0 +1,87 @@
+USE_LR_PARSER
+
+StmtList
+
+(* ======================================================================================================= *)
+
+<StmtList>  ::= <Stmt> <StmtList> 
+                | <epsilon>                                                     .
+
+<Stmt>      ::= <Skip> ";" 
+                | <Assign> ";" 
+                | <Dec> ";" 
+                | <Block>  
+                | <Iter> 
+                | <Cond> 
+                | <Print> ";" 
+                | <Incr> ";"                                                    .
+
+<epsilon>   ::= .
+
+<Dec>         ::= "int" identifier 
+                | "bool" identifier                                             .
+
+<Assign>      ::= identifier "=" <Expr>                                         .
+
+<Incr>        ::= identifier "++" 
+                | identifier "--" 
+                | "++" identifier 
+                | "--" identifier                                               .
+
+<Block>        ::= "{" <StmtList> "}"                                           .
+
+<Cond>         ::= "if" "(" <Expr> ")" <Block> "else" <Block>
+		 | "if" "(" <Expr> ")" <Block>                                  .
+
+<Iter>        ::= <ForIter> 
+                | <WhileIter>                                                   .
+
+<ForIter>     ::= "for" "(" <Assign> ";" <Expr> ";" <Assign> ")" <Block>          .
+
+<WhileIter>   ::= "while" "(" <Expr> ")" <Block>                                .
+
+<Expr>        ::= <LogOr>                                                       .
+
+<LogOr>       ::= <LogOr> "||" <LogAnd> 
+                | <LogAnd>                                                      .
+
+<LogAnd>      ::= <LogAnd> "&&" <LogEq> 
+                | <LogEq>                                                       .
+
+<LogEq>       ::= <LogEq> "==" <RelOp> 
+                | <LogEq> "!=" <RelOp> 
+                | <RelOp>                                                       .
+
+<RelOp>       ::= <RelOp> "<" <AddOp> 
+                | <RelOp> "<=" <AddOp> 
+                | <RelOp> ">" <AddOp> 
+                | <RelOp> ">=" <AddOp> 
+                | <AddOp>                                                       .
+
+<AddOp>       ::= <AddOp> "+" <MulOp> 
+                | <AddOp> "-" <MulOp> 
+                | <MulOp>                                                       .
+
+<MulOp>       ::= <MulOp> "*" <UnaryOp> 
+                | <MulOp> "/" <UnaryOp> 
+                | <MulOp> "%" <UnaryOp> 
+                | <UnaryOp>                                                     .
+
+<UnaryOp>     ::= "-" <UnaryOp> 
+                | "!" <UnaryOp> 
+                | <ExpOp>                                                       .
+
+<ExpOp>       ::= <Base> "^" <ExpOp> 
+                | <Base>                                                        .
+
+<Base>        ::= "|" <Expr> "|" 
+                | "(" <Expr> ")" 
+                | <Value> 
+                | identifier 
+                | <Incr>                                                        .
+
+<Value>         ::= integer 
+                | "true"
+                | "false"                                                       .
+
+<Print>         ::= "print" "(" <Expr> ")"                                      .

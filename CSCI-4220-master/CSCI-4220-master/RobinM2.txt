@@ -1,0 +1,62 @@
+Cond 	::= "if" "(" Expr ")" Block "else" Block | "if" "(" Expr ")" Block 
+
+M([["if" "("expr1")" block1 "else" block2]], m0) =
+    let
+        val (v, m1) = E’( expr1, m0 )
+    in
+	if v then M(block1, m1)
+	else M(block2, m1)
+    end
+
+M([["if" "("expr1")" block]], m0) =
+    let
+        val (v, m1) = E’( expr1, m0 )
+    in
+	if v then M(block, m1)
+	else m1
+    end
+
+
+Iter        ::= ForIter | WhileIter
+
+M([[ForIter]], m0) =
+    let
+        val m1 = M(ForIter, m0)
+    in
+        m1
+    end
+
+| M([[WhileIter]], m0) =
+    let
+        val m1 = M(WhileIter, m0)
+    in
+        m1
+    end
+
+
+ForIter     ::= "for" "(" Expr ")" Block
+
+M( [[ "for" "("expr1")" block ]], m ) = N (expr1, block1, m)
+N(expr1, block1, m0 ) = 
+	let
+		val (v,m1) = E’( expr1, m0 )
+	in
+		if v then N ( expr1, block1, M(block1, m1) ) 
+		else m1
+	end
+
+WhileIter   ::= "while" "(" Expr ")" Block
+
+M( [[ "while" "("expr")" block ]], m0 ) =     
+	let
+		val (v,m1) = E’( expr, m0 )    
+	in
+		if v then 
+			let              
+				val m2 = M( block, m1 )    
+				val m3 = M( [[ "while" "("expr")" block ]], m2 )           
+			in    
+				m3          
+			end   
+		else m1    
+	end
